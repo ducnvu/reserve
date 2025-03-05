@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReServe App Interface</title>
+  <style>
+    :root {
+      --dark-green: #2C5530;
+      --medium-green: #3A7D44;
+      --light-green: #5BA84A;
+      --dark-yellow: #D9A404;
+      --light-yellow: #F2C94C;
+      --white: #FFFFFF;
+      --light-gray: #F5F5F5;
+      --medium-gray: #E0E0E0;
+      --dark-gray: #333333;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+      gap: 20px;
+    }
+    
+    .phone {
+      width: 300px;
+      height: 620px;
+      background-color: white;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .phone-header {
+      height: 40px;
+      background-color: var(--dark-gray);
+      position: relative;
+    }
+    
+    .phone-notch {
+      width: 150px;
+      height: 30px;
+      background-color: var(--dark-gray);
+      border-radius: 0 0 20px 20px;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .screen {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .screen-title {
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--dark-gray);
+      margin: 10px 0;
+      text-transform: uppercase;
+    }
+    
+    .header {
+      height: 60px;
+      background-color: var(--dark-green);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      font-weight: bold;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-highlight {
+      color: var(--dark-yellow);
+    }
+    
+    .icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      background-color: var(--light-gray);
+    }
+    
+    .banner {
+      height: 150px;
+      background-color: var(--medium-green);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      padding: 10px;
+      position: relative;
+    }
+    
+    .banner-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+    }
+    
+    .banner-content {
+      z-index: 1;
+      text-align: center;
+    }
+    
+    .banner h2 {
+      margin: 5px 0;
+      font-size: 18px;
+    }
+    
+    .banner p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    
+    .banner button {
+      background-color: var(--dark-yellow);
+      color: var(--dark-gray);
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      margin-top: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .impact-stats {
+      display: flex;
+      justify-content: space-between;
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--medium-green);
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--dark-gray);
+    }
+    
+    .section-title {
+      margin: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--dark-gray);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .see-all {
+      font-size: 12px;
+      color: var(--medium-green);
+    }
+    
+    .meals-container {
+      margin: 0 15px;
+      display: flex;
+      overflow-x: auto;
+      gap: 15px;
+      padding-bottom: 15px;
+    }
+    
+    .meal-card {
+      width: 150px;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      flex-shrink: 0;
+    }
+    
+    .meal-image {
+      height: 100px;
+      background-color: var(--medium-gray);
+      position: relative;
+    }
+    
+    .meal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .meal-price {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: var(--dark-yellow);
+      color: var(--dark-gray);
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    
+    .meal-details {
+      padding: 10px;
+    }
+    
+    .meal-name {
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    
+    .meal-description {
+      font-size: 12px;
+      color: var(--dark-gray);
+      margin-bottom: 5px;
+    }
+    
+    .meal-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--medium-green);
+    }
+    
+    .menu-day {
+      display: flex;
+      justify-content: space-between;
+      margin: 15px;
+      background-color: white;
+      padding: 10px 15px;
+      border-radius: 10px;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .menu-date {
+      font-weight: bold;
+      color: var(--dark-gray);
+    }
+    
+    .menu-status {
+      color: var(--medium-green);
+      font-size: 12px;
+    }
+    
+    .meal-list {
+      margin: 0 15px;
+    }
+    
+    .meal-item {
+      display: flex;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .meal-item-image {
+      width: 100px;
+      height: 100px;
+      background-color: var(--medium-gray);
+    }
+    
+    .meal-item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .meal-item-details {
+      flex: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .meal-item-top {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .meal-item-name {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    
+    .meal-item-price {
+      background-color: var(--dark-yellow);
+      color: var(--dark-gray);
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    
+    .meal-item-description {
+      font-size: 12px;
+      color: var(--dark-gray);
+      margin: 5px 0;
+    }
+    
+    .meal-item-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .meal-item-stats {
+      color: var(--medium-green);
+      font-size: 10px;
+    }
+    
+    .meal-item-button {
+      background-color: var(--medium-green);
+      color: white;
+      border: none;
+      border-radius: 15px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    
+    .pickup-map {
+      margin: 15px;
+      height: 200px;
+      background-color: var(--medium-gray);
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .pickup-map img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .location-point {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: var(--dark-yellow);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dark-gray);
+      font-weight: bold;
+      font-size: 10px;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.5);
+    }
+    
+    .pickup-list {
+      margin: 0 15px;
+    }
+    
+    .pickup-location {
+      background-color: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .pickup-location-name {
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    
+    .pickup-location-address {
+      font-size: 12px;
+      color: var(--dark-gray);
+      margin-bottom: 5px;
+    }
+    
+    .pickup-times {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--medium-green);
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      background-color: var(--medium-gray);
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .user-details {
+      margin-left: 15px;
+    }
+    
+    .user-name {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    
+    .user-level {
+      font-size: 12px;
+      color: var(--medium-green);
+    }
+    
+    .rewards-progress {
+      background-color: white;
+      padding: 15px;
+      margin-top: 2px;
+    }
+    
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+    
+    .progress-label-text {
+      color: var(--dark-gray);
+    }
+    
+    .progress-label-count {
+      color: var(--medium-green);
+      font-weight: bold;
+    }
+    
+    .progress-bar-bg {
+      height: 10px;
+      background-color: var(--light-gray);
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--dark-yellow);
+      border-radius: 5px;
+      width: 70%;
+    }
+    
+    .reward-message {
+      font-size: 12px;
+      color: var(--dark-gray);
+      text-align: center;
+      margin-top: 10px;
+    }
+    
+    .impact-details {
+      background-color: white;
+      padding: 15px;
+      margin-top: 2px;
+    }
+    
+    .impact-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    .impact-label {
+      font-size: 12px;
+      color: var(--dark-gray);
+    }
+    
+    .impact-value {
+      font-size: 12px;
+      color: var(--medium-green);
+      font-weight: bold;
+    }
+    
+    .navbar {
+      height: 60px;
+      background-color: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid var(--medium-gray);
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--dark-gray);
+      font-size: 10px;
+    }
+    
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+    
+    .nav-item.active {
+      color: var(--dark-green);
+    }
+    
+    .nav-icon.active {
+      background-color: var(--light-green);
+      color: white;
+      border-radius: 50%;
+    }
+    
+    .order-confirmation {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background-color: white;
+    }
+    
+    .confirmation-icon {
+      width: 80px;
+      height: 80px;
+      background-color: var(--light-green);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+    
+    .confirmation-text {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .confirmation-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .confirmation-message {
+      font-size: 14px;
+      color: var(--dark-gray);
+      max-width: 240px;
+      text-align: center;
+    }
+    
+    .confirmation-details {
+      background-color: var(--light-gray);
+      padding: 15px;
+      border-radius: 10px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    
+    .confirmation-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+    
+    .confirmation-label {
+      color: var(--dark-gray);
+    }
+    
+    .confirmation-value {
+      font-weight: bold;
+    }
+    
+    .confirmation-impact {
+      background-color: var(--light-green);
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      width: 100%;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 12px;
+    }
+    
+    .confirmation-impact-value {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+    
+    .confirmation-button {
+      background-color: var(--dark-green);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-weight: bold;
+      width: 100%;
+      cursor: pointer;
+    }
+    
+    .confirmation-later {
+      margin-top: 15px;
+      font-size: 12px;
+      color: var(--medium-green);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Home Screen -->
+    <div class="phone">
+      <div class="phone-header">
+        <div class="phone-notch"></div>
+      </div>
+      <div class="screen-title">Home Screen</div>
+      <div class="screen">
+        <div class="header">
+          <div class="logo">Re<span class="logo-highlight">Serve</span></div>
+          <div class="icon">👤</div>
+        </div>
+        <div class="content">
+          <div class="banner">
+            <img src="/api/placeholder/400/150" alt="Fresh food banner" class="banner-image"/>
+            <div class="banner-content">
+              <h2>Today's Special</h2>
+              <p>Delicious Veggie Stir Fry</p>
+              <button>Order Now</button>
+            </div>
+          </div>
+          
+          <div class="impact-stats">
+            <div class="stat">
+              <div class="stat-value">7/10</div>
+              <div class="stat-label">Meals this week</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">12.5kg</div>
+              <div class="stat-label">Food rescued</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">8.2kg</div>
+              <div class="stat-label">CO₂ saved</div>
+            </div>
+          </div>
+          
+          <div class="section-title">
+            Today's Menu
+            <span class="see-all">See All</span>
+          </div>
+          
+          <div class="meals-container">
+            <div class="meal-card">
+              <div class="meal-image">
+                <img src="/api/placeholder/150/100" alt="Veggie Stir Fry"/>
+                <div class="meal-price">£4.50</div>
+              </div>
+              <div class="meal-details">
+                <div class="meal-name">Veggie Stir Fry</div>
+                <div class="meal-description">Fresh vegetables with rice</div>
+                <div class="meal-stats">
+                  <span>550 kcal</span>
+                  <span>1.2kg CO₂ saved</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="meal-card">
+              <div class="meal-image">
+                <img src="/api/placeholder/150/100" alt="Pasta Primavera"/>
+                <div class="meal-price">£5.00</div>
+              </div>
+              <div class="meal-details">
+                <div class="meal-name">Pasta Primavera</div>
+                <div class="meal-description">Seasonal veg pasta</div>
+                <div class="meal-stats">
+                  <span>620 kcal</span>
+                  <span>1.5kg CO₂ saved</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="meal-card">
+              <div class="meal-image">
+                <img src="/api/placeholder/150/100" alt="Lentil Soup"/>
+                <div class="meal-price">£3.50</div>
+              </div>
+              <div class="meal-details">
+                <div class="meal-name">Lentil Soup</div>
+                <div class="meal-description">Hearty lentil soup</div>
+                <div class="meal-stats">
+                  <span>320 kcal</span>
+                  <span>0.8kg CO₂ saved</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="section-title">
+            Pickup Locations
+            <span class="see-all">See All</span>
+          </div>
+          
+          <div class="pickup-map">
+            <img src="/api/placeholder/400/200" alt="Campus map"/>
+            <div class="location-point" style="top: 40%; left: 30%;">1</div>
+            <div class="location-point" style="top: 60%; left: 70%;">2</div>
+            <div class="location-point" style="top: 50%; left: 50%;">3</div>
+          </div>
+        </div>
+        
+        <div class="navbar">
+          <div class="nav-item active">
+            <div class="nav-icon active">🏠</div>
+            <div>Home</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-icon">🍲</div>
+            <div>Menu</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-icon">📍</div>
+            <div>Pickup</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-icon">🏆</div>
+            <div>Rewards</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Menu Screen -->
+    <div class="phone">
+      <div class="phone-header">
+        <div class="phone-notch"></div>
+      </div>
+      <div class="screen-title">Menu Screen</div>
+      <div class="screen">
+        <div class="header">
+          <div class="logo">Re<span class="logo-highlight">Serve</span></div>
+          <div class="icon">👤</div>
+        </div>
+        <div class="content">
+          <div class="menu-day">
+            <div class="menu-date">Today - March 4</div>
+            <div class="menu-status">Available Now</div>
+          </div>
+          
+          <div class="meal-list">
+            <div class="meal-item">
+              <div class="meal-item-image">
+                <img src="/api/placeholder/100/100" alt="Veggie Stir Fry"/>
+              </div>
+              <div class="meal-item-details">
+                <div>
+                  <div class="meal-item-top">
+                    <div class="meal-item-name">Veggie Stir Fry</div>
+                    <div class="meal-item-price">£4.50</div>
+                  </div>
+                  <div class="meal-item-description">Fresh seasonal vegetables stir-fried with rice noodles in a savory sauce</div>
+                </div>
+                <div class="meal-item-bottom">
+                  <div class="meal-item-stats">550 kcal | 1.2kg CO₂ saved</div>
+                  <button class="meal-item-button">Add</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="meal-item">
+              <div class="meal-item-image">
+                <img src="/api/placeholder/100/100" alt="Pasta Primavera"/>
+              </div>
+              <div class="meal-item-details">
+                <div>
+                  <div class="meal-item-top">
+                    <div class="meal-item-name">Pasta Primavera</div>
+                    <div class="meal-item-price">£5.00</div>
+                  </div>
+                  <div class="meal-item-description">Pasta with seasonal vegetables in a light cream sauce</div>
+                </div>
+                <div class="meal-item-bottom">
+                  <div class="meal-item-stats">620 kcal | 1.5kg CO₂ saved</div>
+                  <button class="meal-item-button">Add</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="meal-item">
+              <div class="meal-item-image">
+                <img src="/api/placeholder/100/100" alt="Lentil Soup"/>
+              </div>
+              <div class="meal-item-details">
+                <div>
+                  <div class="meal-item-top">
+                    <div class="meal-item-name">Lentil Soup</div>
+                    <div class="meal-item-price">£3.50</div>
+                  </div>
+                  <div class="meal-item-description">Hearty lentil soup with rescued vegetables and fresh herbs</div>
+                </div>
+                <div class="meal-item-bottom">
+                  <div class="meal-item-stats">320 kcal | 0.8kg CO₂ saved</div>
+                  <button class="meal-item-button">Add</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="meal-item">
+              <div class="meal-item-image">
+                <img src="/api/placeholder/100/100" alt="Quinoa Bowl"/>
+              </div>
+              <div class="meal-item-details">
+                <div>
+                  <div class="meal-item-top">
+                    <div class="meal-item-name">Quinoa Bowl</div>
+                    <div class="meal-item-price">£5.50</div>
+                  </div>
+                  <div class="meal-item-description">Protein-rich quinoa with roasted vegetables and tahini dressing</div>
+                </div>
+                <div class="meal-item-bottom">
+                  <div class="meal-item-stats">480 kcal | 1.3kg CO₂ saved</div>
+                  <button class="meal-item-button">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="menu-day">
+            <div class="menu-date">Tomorrow - March 5</div>
+            <div class="menu-status">Preview</div>
+          </div>
+          
+          <div class="meal-list">
+            <div class="meal-item">
+              <div class="meal-item-image">
+                <img src="/api/placeholder/100/100" alt="Curry Chickpeas"/>
+              </div>
+              <div class="meal-item-details">
+                <div>
+                  <div class="meal-item-top">
+                    <div class="meal-item-name">Curry Chickpeas</div>
+                    <div class="meal-item-price">£4.75</div>
+                  </div>
+                  <div class="meal-item-description">Spiced chickpeas in a tomato curry sauce with rice</div>
+                </div>
+                <div class="meal-item-bottom">
+                  <div class="meal-item-stats">510 kcal | 1.1kg CO₂ saved</div>
+                  <button class="meal-item-button" style="opacity: 0.5;">Coming Soon</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="navbar">
+          <div class="nav-item">
+            <div class="nav-icon">🏠</div>
+            <div>Home</div>
+          </div>
+          <div class="nav-item active">
+            <div class="nav-icon active">🍲</div>
+            <div>Menu</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-icon">📍</div>
+            <div>Pickup</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-icon">🏆</div>
+            <div>Rewards</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Pickup Screen -->
+    <div class="phone">
+      <div class="phone-header">
+        <div class="phone-notch"></div>
+      </div>
+      <div class="screen-title">Pickup Screen</div>
+      <div class="screen">
+        <div class="header">
+          <div class="logo">Re<span class="logo-highlight">Serve</span></div>
+          <div class="icon">👤</div>
+        </div>
+        <div class="content">
+          <div class="pickup-map" style="height: 240px;">
+            <img src="/api/placeholder/400/240" alt="Campus map"/>
+            <div class="location-point" style="top: 40%; left: 30%;">1</div>
+            <div class="location-point" style="top: 60%; left: 70%;">2</div>
+            <div class="location-point" style="top: 50%; left: 50%;">3</div>
+          </div>
+          
+          <div class="section-title">
+            Pickup Locations
+          </div>
