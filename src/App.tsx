@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Search, Home, Menu, MapPin, Award, ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
+import { Home, Menu, MapPin, Award, ArrowLeft } from 'lucide-react';
 import summerRollsImage from './assets/summer-rolls.jpg';
 import lentilImage from './assets/lentil.jpg';
 import padThaiImage from './assets/pad-thai.jpg';
@@ -7,11 +7,30 @@ import bannerFoodImage from './assets/banner-food.jpg';
 import pastaImage from './assets/pasta.jpg';
 import mapImage from './assets/map.png';
 
-const SustainableMealsApp = () => {
-  const [activePage, setActivePage] = useState('home');
-  const [selectedMeal, setSelectedMeal] = useState(null);
 
-  const todayMeals = [
+interface Meal {
+  id: number;
+  name: string;
+  shortDescription: string;
+  description: string;
+  price: string;
+  calories: number;
+  protein: number;
+  carb: number;
+  fat: number;
+  time: string;
+  location: string;
+  co2Saved: string;
+  imageUrl: string;
+}
+
+const SustainableMealsApp = () => {
+  // const [activePage, setActivePage] = useState('home');
+  const [activePage, setActivePage] = useState<string>('home');
+  // const [selectedMeal, setSelectedMeal] = useState(null);
+  const [selectedMeal, setSelectedMeal] = useState<Meal | null>(null);
+
+  const todayMeals: Meal[] = [
     {
       id: 1,
       name: 'Summer Rolls',
@@ -59,7 +78,7 @@ const SustainableMealsApp = () => {
     },
   ];
 
-  const tomorrowMeals = [
+  const tomorrowMeals: Meal[] = [
     {
       id: 4,
       name: 'Pad Thai',
@@ -98,59 +117,65 @@ const SustainableMealsApp = () => {
     },
   ];
 
-  const renderDetailedMealView = () => (
-    <div className="px-4 py-6 space-y-6">
-      <button 
-        onClick={() => {
-          setSelectedMeal(null);
-          setActivePage('home');
-        }}
-        className="flex items-center text-emerald-600"
-      >
-        <ArrowLeft size={20} />
-        <span className="ml-2">Back to Home</span>
-      </button>
-      
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        <img 
-          src={selectedMeal.imageUrl} 
-          alt={selectedMeal.name} 
-          className="w-full h-48 object-cover"
-        />
-        <div className="p-4">
-          <h2 className="text-xl font-bold text-gray-800">{selectedMeal.name}</h2>
-          <p className="text-sm text-gray-600 mt-2">{selectedMeal.description}</p>
+  const renderDetailedMealView = () => {
+    if (!selectedMeal) {
+      return <div>No meal selected</div>;
+    }
 
-          {/* Collection Time and Location */}
-          <div className="mt-4">
-            <h3 className="text-md font-semibold text-gray-800">Collection Details</h3>
-            <p className="text-sm text-gray-600">
-              <strong>Time:</strong> {selectedMeal.time || 'N/A'}
-            </p>
-            <p className="text-sm text-gray-600">
-              <strong>Location:</strong> {selectedMeal.location || 'N/A'}
-            </p>
-          </div>
+    return (
+      <div className="px-4 py-6 space-y-6">
+        <button 
+          onClick={() => {
+            setSelectedMeal(null);
+            setActivePage('home');
+          }}
+          className="flex items-center text-emerald-600"
+        >
+          <ArrowLeft size={20} />
+          <span className="ml-2">Back to Home</span>
+        </button>
+        
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img 
+            src={selectedMeal.imageUrl} 
+            alt={selectedMeal.name} 
+            className="w-full h-48 object-cover"
+          />
+          <div className="p-4">
+            <h2 className="text-xl font-bold text-gray-800">{selectedMeal.name}</h2>
+            <p className="text-sm text-gray-600 mt-2">{selectedMeal.description}</p>
 
-          <div className="mt-4 flex justify-between items-center">
-            <span className="text-lg font-bold text-yellow-600">{selectedMeal.price}</span>
-            <span className="text-sm text-emerald-600">{selectedMeal.co2Saved} CO₂ saved</span>
+            {/* Collection Time and Location */}
+            <div className="mt-4">
+              <h3 className="text-md font-semibold text-gray-800">Collection Details</h3>
+              <p className="text-sm text-gray-600">
+                <strong>Time:</strong> {selectedMeal.time || 'N/A'}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Location:</strong> {selectedMeal.location || 'N/A'}
+              </p>
+            </div>
+
+            <div className="mt-4 flex justify-between items-center">
+              <span className="text-lg font-bold text-yellow-600">{selectedMeal.price}</span>
+              <span className="text-sm text-emerald-600">{selectedMeal.co2Saved} CO₂ saved</span>
+            </div>
+            <div className="mt-4">
+              <h3 className="text-md font-semibold text-gray-800">Nutritional Information</h3>
+              <p className="text-sm text-gray-600">Calories: {selectedMeal.calories} kcal</p>
+              <p className="text-sm text-gray-600">Protein: {selectedMeal.protein} kcal</p>
+              <p className="text-sm text-gray-600">Carbs: {selectedMeal.carb} kcal</p>
+              <p className="text-sm text-gray-600">Fat: {selectedMeal.fat} kcal</p>
+              {/* Add more nutritional info here */}
+            </div>
+            <button className="mt-6 w-full bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700">
+              Add to Order
+            </button>
           </div>
-          <div className="mt-4">
-            <h3 className="text-md font-semibold text-gray-800">Nutritional Information</h3>
-            <p className="text-sm text-gray-600">Calories: {selectedMeal.calories} kcal</p>
-            <p className="text-sm text-gray-600">Protein: {selectedMeal.protein} kcal</p>
-            <p className="text-sm text-gray-600">Carbs: {selectedMeal.carb} kcal</p>
-            <p className="text-sm text-gray-600">Fat: {selectedMeal.fat} kcal</p>
-            {/* Add more nutritional info here */}
-          </div>
-          <button className="mt-6 w-full bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700">
-            Add to Order
-          </button>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   const renderImpactPage = () => (
     <div className="px-4 py-6 space-y-6">
@@ -341,7 +366,7 @@ const SustainableMealsApp = () => {
           }}
         >
           <img src={mapImage} className="w-full h-full object-cover" />
-          {pickupLocations.map((location, index) => (
+          {pickupLocations.map((_, index) => (
             <div key={index} className="absolute w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center text-xs font-bold text-gray-800" style={{ top: `${40 + index * 10}%`, left: `${30 + index * 20}%` }}>
               {index + 1}
             </div>
