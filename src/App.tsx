@@ -473,7 +473,7 @@ const SustainableMealsApp = () => {
             {/* Optional: Add See All link if needed later */}
           </div>
           <div className="flex space-x-6 overflow-x-auto pb-4">
-            {topPicks.map((meal, index) => (
+            {topPicks.map((meal) => (
               <div
                 key={meal.id}
                 className="flex-shrink-0 w-48 bg-white rounded-lg overflow-hidden shadow-lg cursor-pointer"
