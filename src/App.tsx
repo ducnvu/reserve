@@ -71,7 +71,7 @@ const SustainableMealsApp = () => {
       name: 'Summer Rolls',
       shortDescription: 'Fresh Vietnamese rice paper rolls.',
       description: 'Fresh Vietnamese rice paper rolls filled with shrimp, herbs, vermicelli noodles, and vegetables, served with a peanut or hoisin dipping sauce.',
-      price: '£8.80',
+      price: '£7.00',
       calories: 300,
       protein: 10,
       carb: 40,
@@ -116,7 +116,7 @@ const SustainableMealsApp = () => {
       shortDescription: 'Classic Thai stir-fried noodles.',
       description: 'A classic Thai stir-fried noodle dish with shrimp, eggs, tofu, bean sprouts, and peanuts, tossed in a tangy-sweet tamarind sauce.',
       price: '£8.80',
-      calories: 580,
+      calories: 620,
       protein: 25,
       carb: 70,
       fat: 20,
@@ -138,7 +138,7 @@ const SustainableMealsApp = () => {
       shortDescription: 'Spicy Thai basil stir-fry.',
       description: 'A spicy and aromatic Thai stir-fry featuring minced pork, basil, garlic, and chili, served over rice with a fried egg on top.',
       price: '£6.80',
-      calories: 620,
+      calories: 580,
       protein: 28,
       carb: 60,
       fat: 30,
@@ -227,21 +227,21 @@ const SustainableMealsApp = () => {
   const pickupLocations = [
     {
       id: 1,
-      name: 'Student Union',
-      address: '123 University Ave',
-      times: ['11:30 AM - 2:00 PM', '5:00 PM - 7:00 PM'],
+      name: 'Bloomsbury',
+      address: '10 University Street, WC1E',
+      times: ['11:00 AM - 2:00 PM', '5:00 PM - 8:00 PM'],
     },
     {
       id: 2,
-      name: 'Central Library',
-      address: '456 Library Lane',
-      times: ['10:00 AM - 1:00 PM', '3:00 PM - 6:00 PM'],
+      name: 'Soho',
+      address: '25 Dean Street, W1D',
+      times: ['11:00 AM - 2:00 PM', '5:00 PM - 8:00 PM'],
     },
     {
       id: 3,
-      name: 'Community Center',
-      address: '789 Community Blvd',
-      times: ['12:00 PM - 3:00 PM', '6:30 PM - 8:30 PM'],
+      name: 'Moorgate',
+      address: '50 London Wall, EC2M',
+      times: ['11:00 AM - 2:00 PM', '5:00 PM - 8:00 PM'],
     },
   ];
 
@@ -300,10 +300,6 @@ const SustainableMealsApp = () => {
             {/* Surplus Ingredients Section */}
             <div className="mt-4">
               <h3 className="text-md font-semibold text-gray-800">Surplus Ingredients Used</h3>
-              <p className="text-xs text-gray-500 mt-1 mb-2">
-                We rescue quality surplus ingredients to create delicious meals and fight food waste. 
-                All ingredients are carefully inspected and perfectly safe to consume.
-              </p>
               <table className="w-full text-sm text-left text-gray-600 mt-2">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                   <tr>
@@ -612,7 +608,7 @@ const SustainableMealsApp = () => {
         {/* Today's Meals Section */}
         <div>
           <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow">
-            <h2 className="text-sm font-bold text-gray-800">Today - April 3</h2>
+            <h2 className="text-sm font-bold text-gray-800">Today - April 2</h2>
             <span className="text-xs font-medium text-emerald-600">Available Now</span>
           </div>
           <div className="space-y-4 mt-4">
@@ -668,7 +664,7 @@ const SustainableMealsApp = () => {
         {/* Tomorrow's Meals Section */}
         <div>
           <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow">
-            <h2 className="text-sm font-bold text-gray-800">Tomorrow - April 4</h2>
+            <h2 className="text-sm font-bold text-gray-800">Tomorrow - April 3</h2>
             <span className="text-xs font-medium text-gray-500">Preview</span>
           </div>
           <div className="space-y-4 mt-4">
